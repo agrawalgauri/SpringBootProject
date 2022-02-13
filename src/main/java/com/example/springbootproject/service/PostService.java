@@ -5,6 +5,8 @@ import com.example.springbootproject.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PostService {
 
@@ -20,6 +22,11 @@ public class PostService {
                 .map(Post::getUserId)
                 .distinct()
                 .count();
+    }
+
+    public List<Post> updatePost(Post post){
+        postRepository.updatePost(post);
+        return postRepository.getPosts();
     }
 
 }

@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class PostRepository {
@@ -34,4 +35,21 @@ public class PostRepository {
         }
     }
 
+
+    public Post updatePost(Post post) {
+        Post dbPost = postList.stream()
+                .filter((x) -> Objects.equals(x.getId(), post.getId()))
+                .findFirst()
+                .orElse(null);
+        if (dbPost == null) {
+            throw new NullPointerException("No Post exists with id="+post.getId());
+        }
+        if (post.getBody() != null) {
+            dbPost.setBody(post.getBody());
+        }
+        if (post.getTitle() != null) {
+            dbPost.setTitle(post.getTitle());
+        }
+        return dbPost;
+    }
 }
