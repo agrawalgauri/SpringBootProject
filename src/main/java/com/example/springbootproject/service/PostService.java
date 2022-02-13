@@ -5,18 +5,21 @@ import com.example.springbootproject.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class PostService {
 
-    private PostRepository springRepository;
+    private final PostRepository postRepository;
+
     @Autowired
-    public PostService(PostRepository springRepository) {
-        this.springRepository=springRepository;
+    public PostService(PostRepository postRepository) {
+        this.postRepository = postRepository;
     }
 
-    public List<Post> uniqueUsers() {
-        return springRepository.uniqueUsers();
+    public Long uniqueUsers() {
+        return postRepository.getPosts().stream()
+                .map(Post::getUserId)
+                .distinct()
+                .count();
     }
+
 }

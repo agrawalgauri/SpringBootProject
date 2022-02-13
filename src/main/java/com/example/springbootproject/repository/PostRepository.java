@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -15,21 +14,24 @@ import java.util.List;
 public class PostRepository {
 
     private final Gson gson;
+    private List<Post> postList;
 
     @Autowired
     public PostRepository(Gson gson) {
         this.gson = gson;
-        uniqueUsers();
+        loadPosts();
     }
 
-    public List<Post> uniqueUsers() {
+    public List<Post> getPosts() {
+        return postList;
+    }
+
+    private void loadPosts() {
         try {
-            List<Post> posts = Arrays.asList(gson.fromJson(Files.newBufferedReader(Paths.get("src", "main", "resources", "datasource", "data-source.json")), Post[].class));
-            posts.forEach(System.out::println);
+            postList = Arrays.asList(gson.fromJson(Files.newBufferedReader(Paths.get("src", "main", "resources", "datasource", "data-source.json")), Post[].class));
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println(e.getMessage());
         }
-        return new ArrayList<>();
     }
+
 }

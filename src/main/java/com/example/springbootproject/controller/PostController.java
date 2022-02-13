@@ -1,27 +1,24 @@
 package com.example.springbootproject.controller;
 
-import com.example.springbootproject.model.Post;
 import com.example.springbootproject.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/springBoot")
+@RequestMapping("/posts")
 public class PostController {
 
-    private PostService springService;
+    private final PostService postService;
 
     @Autowired
-    public PostController(PostService springService) {
-        this.springService = springService;
+    public PostController(PostService postService) {
+        this.postService = postService;
     }
 
-    @GetMapping
-    public List<Post> uniqueUsers() {
-        return springService.uniqueUsers();
+    @GetMapping("/users/unique")
+    public Long uniqueUsers() {
+        return postService.uniqueUsers();
     }
 }
