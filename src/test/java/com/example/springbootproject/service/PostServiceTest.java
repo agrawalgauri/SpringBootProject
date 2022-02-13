@@ -60,9 +60,36 @@ class PostServiceTest {
 
     @Test
     void updatePost() {
+        Post post1 = Post.builder().id(10).userId(20).title("hello").build();
+        when(postRepository.getPosts()).thenReturn(List.of(post1));
+        assertEquals(1, postService.updatePost(post1).size());
     }
 
     @Test
     void getPosts() {
+        Post post1 = Post.builder().id(10).userId(20).title("zebra").build();
+        Post post2 = Post.builder().id(11).userId(20).title("hello ").build();
+        when(postRepository.getPosts()).thenReturn(List.of(post1,post2));
+        List<Post> posts = postService.getPosts(true);
+        assertEquals(2, posts.size());
+        assertEquals(post2,posts.get(0));
+
+    }
+    @Test
+    void getPosts_null_title() {
+        Post post1 = Post.builder().id(10).userId(20).title("zebra").build();
+        Post post2 = Post.builder().id(11).userId(20).title(null).build();
+        when(postRepository.getPosts()).thenReturn(List.of(post1,post2));
+
+        assertThrows(NullPointerException.class, () -> postService.getPosts(true));
+    }
+    @Test
+    void getPosts_same_title() {
+        Post post1 = Post.builder().id(10).userId(20).title("hello").build();
+        Post post2 = Post.builder().id(11).userId(20).title("hello").build();
+        when(postRepository.getPosts()).thenReturn(List.of(post1,post2));
+        List<Post> posts = postService.getPosts(true);
+        assertEquals(2, posts.size());
+        assertEquals(post1,posts.get(0));
     }
 }
