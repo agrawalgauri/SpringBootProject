@@ -21,6 +21,7 @@ public class PostService {
     public Long uniqueUsers() {
         return postRepository.getPosts().stream()
                 .map(Post::getUserId)
+                .filter((x)->x!=null)
                 .distinct()
                 .count();
     }
