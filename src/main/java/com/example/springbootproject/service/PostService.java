@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PostService {
@@ -24,9 +25,17 @@ public class PostService {
                 .count();
     }
 
-    public List<Post> updatePost(Post post){
+    public List<Post> updatePost(Post post) {
         postRepository.updatePost(post);
         return postRepository.getPosts();
     }
 
+    public List<Post> getPosts(boolean sort) {
+        if (sort) {
+            return postRepository.getPosts().stream()
+                    .sorted((x, y) -> x.getTitle().compareTo(y.getTitle()))
+                    .collect(Collectors.toList());
+        }
+        return postRepository.getPosts();
+    }
 }

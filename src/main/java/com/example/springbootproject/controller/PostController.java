@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -26,6 +27,11 @@ public class PostController {
     @GetMapping("/users/unique")
     public Long uniqueUsers() {
         return postService.uniqueUsers();
+    }
+
+    @GetMapping
+    public List<Post> getPosts(@RequestParam(required = false,defaultValue = "true") boolean sort){
+        return postService.getPosts(sort);
     }
 
     @PatchMapping("/{id}")
